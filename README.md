@@ -12,3 +12,9 @@ Installation
     autoreconf --install
     ./configure
     make all install clean
+
+
+Usage
+-----
+
+    base64 [ -o <output-file> ] [ -r | --reverse ] [ <input-file> ]
