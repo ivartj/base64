@@ -13,6 +13,7 @@ struct _io {
 
 static int encode(io *x);
 static int decode(io *x);
+static void gendec(io *x);
 
 int base64_encode(base64_iofunc read, void *readstream, base64_iofunc write, void *writestream)
 {
@@ -36,6 +37,8 @@ int base64_decode(base64_iofunc read, void *readstream, base64_iofunc write, voi
 	x.rdata = readstream;
 	x.wdata = writestream;
 	x.enc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+	gendec(&x);
 
 	return decode(&x);
 }
@@ -127,10 +130,10 @@ void gendec(io *x)
 
 	enc = x->enc;
 	for(i = 0; i < 64; i++) 
-		x->dec[enc[i]] = i;
+		x->dec[enc[i]] = i + 1;
 }
 
-static int decode(io *x)
+int decode(io *x)
 {
 	int c;
 	int state;
@@ -140,13 +143,12 @@ static int decode(io *x)
 	n = 0;
 	state = 0;
 
-	gendec(x);
-
 	while((c = xgetc(x)) != EOF) {
 
 		c = x->dec[c];
 		if(c == 0)
 			continue;
+		c--;
 
 		switch(state) {
 		case 0:
