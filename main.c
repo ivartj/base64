@@ -55,7 +55,7 @@ void parseargs(int argc, char *argv[])
 void openfiles(void)
 {
 	if(infile != NULL) {
-		in = fopen(infile, "r");
+		in = fopen(infile, "rb");
 		if(in == NULL) {
 			perror("fopen");
 			exit(EXIT_FAILURE);
