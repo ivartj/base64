@@ -56,15 +56,19 @@ void openfiles(void)
 {
 	if(infile != NULL) {
 		in = fopen(infile, "r");
-		if(in == NULL)
+		if(in == NULL) {
 			perror("fopen");
+			exit(EXIT_FAILURE);
+		}
 	} else
 		in = stdin;
 
 	if(outfile != NULL) {
 		out = fopen(outfile, "w");
-		if(out == NULL)
+		if(out == NULL) {
 			perror("fopen");
+			exit(EXIT_FAILURE);
+		}
 	} else
 		out = stdout;
 }
