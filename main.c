@@ -76,7 +76,6 @@ void openfiles(void)
 void decode(void)
 {
 	base64_decode(base64_fread, in, base64_fwrite, out);
-	fputc('\n', out);
 }
 
 void encode(void)
