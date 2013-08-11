@@ -18,3 +18,7 @@ Usage
 -----
 
     base64 [ -o <output-file> ] [ -r | --reverse ] [ <input-file> ]
+
+Be aware that the last newline in the input is also encoded, so if you may want
+to use the Unix `echo` command with the `-n` option to suppress the usual last
+newline.
