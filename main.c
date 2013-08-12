@@ -11,7 +11,7 @@ FILE *in = NULL;
 
 void usage(FILE *out)
 {
-	fprintf(out, "Usage: base64 [ -r ] [ <input-file> ]\n");
+	fprintf(out, "Usage: base64 [ -o <output-file> ] [ -r | --reverse ] [ <input-file> ]\n");
 }
 
 void parseargs(int argc, char *argv[])
