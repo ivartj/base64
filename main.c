@@ -36,6 +36,7 @@ void parseargs(int argc, char *argv[])
 		usage(stdout);
 		exit(EXIT_SUCCESS);
 	case '?':
+	case ':':
 		usage(stderr);
 		exit(EXIT_FAILURE);
 	}
@@ -75,12 +76,12 @@ void openfiles(void)
 
 void decode(void)
 {
-	base64_decode(base64_fread, in, base64_fwrite, out);
+	base64_decode(NULL, in, NULL, out);
 }
 
 void encode(void)
 { 
-	base64_encode(base64_fread, in, base64_fwrite, out);
+	base64_encode(NULL, in, NULL, out);
 	fputc('\n', out);
 }
 

@@ -3,8 +3,8 @@
 typedef struct _io io;
 
 struct _io {
-	base64_iofunc read;
-	base64_iofunc write;
+	base64_readfn read;
+	base64_writefn write;
 	void *rdata;
 	void *wdata;
 	unsigned char *enc;
@@ -14,30 +14,37 @@ struct _io {
 static int encode(io *x);
 static int decode(io *x);
 static void gendec(io *x);
+static void io_init(io *x, base64_readfn read, void *readstream, base64_writefn write, void *writestream);
 
-int base64_encode(base64_iofunc read, void *readstream, base64_iofunc write, void *writestream)
+void io_init(io *x, base64_readfn read, void *readstream, base64_writefn write, void *writestream)
+{
+	if(read != NULL)
+		x->read = read;
+	else
+		x->read = (base64_readfn)fread;
+	if(write != NULL)
+		x->write = write;
+	else
+		x->write = (base64_writefn)fwrite;
+	x->rdata = readstream;
+	x->wdata = writestream;
+	x->enc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+}
+
+int base64_encode(base64_readfn read, void *readstream, base64_writefn write, void *writestream)
 {
 	io x = { 0 };
 
-	x.read = read;
-	x.write = write;
-	x.rdata = readstream;
-	x.wdata = writestream;
-	x.enc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+	io_init(&x, read, readstream, write, writestream);
 
 	return encode(&x);
 }
 
-int base64_decode(base64_iofunc read, void *readstream, base64_iofunc write, void *writestream)
+int base64_decode(base64_readfn read, void *readstream, base64_writefn write, void *writestream)
 {
 	io x;
 
-	x.read = read;
-	x.write = write;
-	x.rdata = readstream;
-	x.wdata = writestream;
-	x.enc = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
-
+	io_init(&x, read, readstream, write, writestream);
 	gendec(&x);
 
 	return decode(&x);

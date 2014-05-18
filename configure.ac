@@ -1,4 +1,4 @@
-AC_INIT([base64], [0.01], [ivar.jarlsby@stud.uis.no])
+AC_INIT([base64], [0.01], [ivar.jarlsby@gmail.com])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 
 AC_PROG_CC
